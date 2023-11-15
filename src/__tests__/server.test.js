@@ -12,13 +12,10 @@ const { app } = require("../server");
 
 describe("/cards", () => {
   describe("GET", () => {
-    test("GET 200: Responds with a status code of 200 on successful request", async () => {
+    test("GET 200: Responds with a 200 status a JSON array of card objects detailing each card's title, imageUrl and id", async () => {
       const response = await request(app).get("/cards");
       expect(response.status).toBe(200);
-    });
-    test("GET 200: Responds with an JSON array of card objects detailing each card's title, imageUrl and id", async () => {
-      const response = await request(app).get("/cards");
-      const {cards} = response.body
+      const { cards } = response.body;
       expect(cards).toHaveLength(3);
       cards.forEach((card) => {
         expect(card).toHaveProperty("title");
