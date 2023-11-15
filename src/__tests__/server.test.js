@@ -2,6 +2,7 @@ const request = require("supertest");
 const { app } = require("../server");
 const { GeneralCard } = require("../classes/GeneralCard");
 
+
 describe("/cards", () => {
   describe("GET", () => {
     it("GET 200: Responds with a 200 status a JSON array of card objects detailing each card's title, imageUrl and id", async () => {
@@ -14,6 +15,59 @@ describe("/cards", () => {
         expect(card).toHaveProperty("imageUrl");
         expect(card).toHaveProperty("card_id");
       });
+    });
+  });
+  describe("POST", () => {
+    it("POST 201: Adds a new card to the database", async () => {
+      const response = await request(app)
+        .post("/cards")
+        .send({
+          title: "example title",
+          sizes: ["sm", "md", "gt"],
+          basePrice: 200,
+          pages: [
+            {
+              title: "Front Cover",
+              templateId: "template001",
+            },
+            {
+              title: "Inside Left",
+              templateId: "template002",
+            },
+            {
+              title: "Inside Right",
+              templateId: "template003",
+            },
+            {
+              title: "Back Cover",
+              templateId: "template004",
+            },
+          ],
+        });
+      expect(response.status).toBe(201);
+      const {card } = response.body
+      expect(card).toHaveProperty("id", "card004")
+      expect(card).toHaveProperty("title", "example title")
+      expect(card).toHaveProperty("basePrice", 200)
+      expect(card.sizes).toEqual(["sm", "md", "gt"])
+      expect(card.pages).toEqual([
+        {
+          title: "Front Cover",
+          templateId: "template001",
+        },
+        {
+          title: "Inside Left",
+          templateId: "template002",
+        },
+        {
+          title: "Inside Right",
+          templateId: "template003",
+        },
+        {
+          title: "Back Cover",
+          templateId: "template004",
+        },
+      ])
     });
   });
 });
@@ -74,8 +128,8 @@ describe("/cards/:cardId", () => {
       expect(response.status).toBe(204);
       const getResponse = await request(app).get("/cards");
       const { cards } = getResponse.body;
-      expect(cards).toHaveLength(2);
-      expect(GeneralCard.totalCards).toBe(2);
+      expect(cards).toHaveLength(3);
+      expect(GeneralCard.totalCards).toBe(3);
     });
     it("GET 400: Responds with 400 if id is invalid", async () => {
       const response = await request(app).delete("/cards/3");
@@ -89,4 +143,3 @@ describe("/cards/:cardId", () => {
     });
   });
 });
-

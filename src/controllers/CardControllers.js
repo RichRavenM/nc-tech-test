@@ -1,5 +1,6 @@
 const {
   selectCards,
+  insertCard,
   selectCardById,
   removeCardsById,
 } = require("../models/CardModels");
@@ -7,6 +8,12 @@ const {
 exports.getCards = async (request, response, next) => {
   const cards = await selectCards();
   response.status(200).send({ cards: cards });
+};
+
+exports.postCard = async (request, response, next) => {
+  const { body } = request;
+  const card = await insertCard(body);
+  response.status(201).send({ card });
 };
 
 exports.getCardsById = async (request, response, next) => {

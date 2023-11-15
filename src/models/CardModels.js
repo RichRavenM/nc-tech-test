@@ -17,6 +17,18 @@ exports.selectCards = async () => {
   return formattedCards;
 };
 
+exports.insertCard = async (body) => {
+  const id = GeneralCard.generateId();
+  const newCard = { id, ...body };
+
+  const cards = await fs.readFile("src/data/cards.json", "utf-8");
+  const parsedCards = JSON.parse(cards);
+  const newCards = JSON.stringify([...parsedCards, newCard], null, 2);
+  console.log(newCards);
+  await fs.writeFile("src/data/cards.json", newCards);
+  return newCard;
+};
+
 exports.selectCardById = async (cardId) => {
   const pattern = /card\d{3}/;
   if (!pattern.test(cardId)) {
