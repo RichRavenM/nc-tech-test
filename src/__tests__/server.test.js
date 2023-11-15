@@ -1,18 +1,9 @@
 const request = require("supertest");
 const { app } = require("../server");
 
-// test('returns matching card title', async () => {
-//   const response = await request(app).get('/cards/card001')
-
-//   expect(response.status).toBe(200)
-//   expect(response.body).toEqual(expect.objectContaining({
-//     title: 'card 1 title',
-//   }))
-// })
-
 describe("/cards", () => {
   describe("GET", () => {
-    test("GET 200: Responds with a 200 status a JSON array of card objects detailing each card's title, imageUrl and id", async () => {
+    it("GET 200: Responds with a 200 status a JSON array of card objects detailing each card's title, imageUrl and id", async () => {
       const response = await request(app).get("/cards");
       expect(response.status).toBe(200);
       const { cards } = response.body;
@@ -22,6 +13,52 @@ describe("/cards", () => {
         expect(card).toHaveProperty("imageUrl");
         expect(card).toHaveProperty("card_id");
       });
+    });
+  });
+});
+
+describe("/cards/:cardId", () => {
+  describe("GET", () => {
+    test("returns matching card title", async () => {
+      const response = await request(app).get("/cards/card003");
+      expect(response.status).toBe(200);
+      const { card } = response.body;
+      expect(card).toHaveProperty("title", "card 3 title");
+      expect(card).toHaveProperty("imageUrl", "/front-cover-landscape.jpg");
+      expect(card).toHaveProperty("card_id", "card003");
+      expect(card).toHaveProperty("base_price", 200);
+      expect(card.availableSizes).toEqual([
+        {
+          id: "sm",
+          title: "Small",
+        },
+        {
+          id: "md",
+          title: "Medium",
+        },
+        {
+          id: "gt",
+          title: "Giant",
+        },
+      ]);
+      expect(card.pages).toEqual([
+        {
+          title: "Front Cover",
+          templateId: "template001",
+        },
+        {
+          title: "Inside Left",
+          templateId: "template002",
+        },
+        {
+          title: "Inside Right",
+          templateId: "template003",
+        },
+        {
+          title: "Back Cover",
+          templateId: "template004",
+        },
+      ]);
     });
   });
 });
