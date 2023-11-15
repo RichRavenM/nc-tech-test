@@ -24,7 +24,6 @@ exports.insertCard = async (body) => {
   const cards = await fs.readFile("src/data/cards.json", "utf-8");
   const parsedCards = JSON.parse(cards);
   const newCards = JSON.stringify([...parsedCards, newCard], null, 2);
-  console.log(newCards);
   await fs.writeFile("src/data/cards.json", newCards);
   return newCard;
 };

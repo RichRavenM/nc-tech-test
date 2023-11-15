@@ -1,7 +1,19 @@
 const request = require("supertest");
 const { app } = require("../server");
 const { GeneralCard } = require("../classes/GeneralCard");
+const { cardTestData } = require("../data/cardTestData");
+const fs = require("fs/promises");
 
+beforeEach(async () => {
+  await fs.writeFile(
+    "src/data/cards.json",
+    JSON.stringify(cardTestData, null, 2)
+  );
+});
+
+afterAll(async() => {
+  await fs.writeFile("src/data/cards.json", JSON.stringify(cardTestData, null, 2))
+});
 
 describe("/cards", () => {
   describe("GET", () => {
@@ -45,11 +57,11 @@ describe("/cards", () => {
           ],
         });
       expect(response.status).toBe(201);
-      const {card } = response.body
-      expect(card).toHaveProperty("id", "card004")
-      expect(card).toHaveProperty("title", "example title")
-      expect(card).toHaveProperty("basePrice", 200)
-      expect(card.sizes).toEqual(["sm", "md", "gt"])
+      const { card } = response.body;
+      expect(card).toHaveProperty("id", "card004");
+      expect(card).toHaveProperty("title", "example title");
+      expect(card).toHaveProperty("basePrice", 200);
+      expect(card.sizes).toEqual(["sm", "md", "gt"]);
       expect(card.pages).toEqual([
         {
           title: "Front Cover",
@@ -67,7 +79,7 @@ describe("/cards", () => {
           title: "Back Cover",
           templateId: "template004",
         },
-      ])
+      ]);
     });
   });
 });
@@ -124,12 +136,13 @@ describe("/cards/:cardId", () => {
   });
   describe("DELETE", () => {
     it("DELETE 204: Successfully removes card from database", async () => {
+      GeneralCard.decreaseTotalCards();
       const response = await request(app).delete("/cards/card001");
       expect(response.status).toBe(204);
       const getResponse = await request(app).get("/cards");
       const { cards } = getResponse.body;
-      expect(cards).toHaveLength(3);
-      expect(GeneralCard.totalCards).toBe(3);
+      expect(cards).toHaveLength(2);
+      expect(GeneralCard.totalCards).toBe(2);
     });
     it("GET 400: Responds with 400 if id is invalid", async () => {
       const response = await request(app).delete("/cards/3");
