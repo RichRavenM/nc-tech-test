@@ -29,10 +29,6 @@ describe("/cards/:cardId", () => {
       expect(card).toHaveProperty("base_price", 200);
       expect(card.availableSizes).toEqual([
         {
-          id: "sm",
-          title: "Small",
-        },
-        {
           id: "md",
           title: "Medium",
         },
@@ -44,19 +40,19 @@ describe("/cards/:cardId", () => {
       expect(card.pages).toEqual([
         {
           title: "Front Cover",
-          templateId: "template001",
+          templateId: "template006",
         },
         {
-          title: "Inside Left",
-          templateId: "template002",
+          title: "Inside Top",
+          templateId: "template007",
         },
         {
-          title: "Inside Right",
-          templateId: "template003",
+          title: "Inside Bottom",
+          templateId: "template007",
         },
         {
           title: "Back Cover",
-          templateId: "template004",
+          templateId: "template008",
         },
       ]);
     });

@@ -1,4 +1,5 @@
 const { GeneralCard } = require("./classes/GeneralCard");
+const { SingleCard } = require("./classes/SingleCard");
 
 exports.templateUrlCache = (templates) => {
   const cache = {};
@@ -17,6 +18,20 @@ exports.formatGeneralCards = (cards, cache) => {
     output.push(generalCard);
   });
   return output;
+};
+
+exports.formatSingleCard = (card, cache) => {
+  const imageUrl = cache[card.pages[0].templateId];
+  const availableSizes = this.generateSizesArray(card.sizes)
+  const singleCard = new SingleCard(
+    card.title,
+    imageUrl,
+    card.id,
+    card.basePrice,
+    availableSizes,
+    card.pages
+  );
+  return singleCard;
 };
 
 exports.generateSizesArray = (sizes) => {

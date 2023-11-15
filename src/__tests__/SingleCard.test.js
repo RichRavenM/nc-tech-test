@@ -20,7 +20,7 @@ describe("SingleCard", () => {
       "http://image.com",
       "card009",
       200,
-      ["sm"],
+      [{ id: "sm", title: "Small" }],
       [{ title: "Front Cover", templateId: "template001" }]
     );
     expect(TestCard.title).toBe("Title A");

@@ -14,7 +14,6 @@ exports.selectCards = async () => {
   return formattedCards;
 };
 
-
 exports.selectCardById = async (cardId) => {
   const cardRead = fs.readFile("src/data/cards.json", "utf-8");
   const templateRead = fs.readFile("src/data/templates.json", "utf-8");
@@ -23,4 +22,5 @@ exports.selectCardById = async (cardId) => {
 
   const templateCache = templateUrlCache(JSON.parse(templates));
 
-}
+  const matchedCard = JSON.parse(cards).filter((card) => card.id === cardId);
+};
