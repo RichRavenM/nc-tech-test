@@ -3,7 +3,14 @@ const { SingleCard } = require("../classes/SingleCard");
 
 describe("SingleCard", () => {
   it("new object is an instance of SingleCard and GeneralCard classes", () => {
-    const TestCard = new SingleCard();
+    const TestCard = new SingleCard(
+        "Title A",
+        "http://image.com",
+        "card009",
+        200,
+        ["sm"],
+        [{ title: "Front Cover", templateId: "template001" }]
+      );
     expect(TestCard instanceof SingleCard).toBe(true);
     expect(TestCard instanceof GeneralCard).toBe(true);
   });
@@ -13,7 +20,7 @@ describe("SingleCard", () => {
       "http://image.com",
       "card009",
       200,
-      [{ id: "sm", title: "Small" }],
+      ["sm"],
       [{ title: "Front Cover", templateId: "template001" }]
     );
     expect(TestCard.title).toBe("Title A");

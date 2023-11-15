@@ -18,3 +18,20 @@ exports.formatGeneralCards = (cards, cache) => {
   });
   return output;
 };
+
+exports.generateSizesArray = (sizes) => {
+  const cache = { sm: "Small", md: "Medium", lg: "Large", gt: "Giant" };
+
+  const output = [];
+
+  sizes.forEach((size) => {
+    const sizeInfo = {};
+    sizeInfo.id = size;
+    sizeInfo.title = cache[size];
+    if (sizeInfo.title) {
+      output.push(sizeInfo);
+    }
+  });
+
+  return output;
+};

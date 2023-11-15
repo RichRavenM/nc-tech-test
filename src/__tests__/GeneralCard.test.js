@@ -2,7 +2,7 @@ const { GeneralCard } = require("../classes/GeneralCard");
 
 describe("GeneralCard", () => {
   it("new object is an instance of GeneralCard class", () => {
-    const TestCard = new GeneralCard();
+    const TestCard = new GeneralCard("Title A", "http://image.com", "card009");
     expect(TestCard instanceof GeneralCard).toBe(true);
   });
   it("new object has title, imageUrl, and card_id properties", () => {
