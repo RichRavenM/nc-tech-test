@@ -5,9 +5,8 @@ exports.getCards = async (request, response, next) => {
   response.status(200).send({ cards: cards });
 };
 
-exports.getCardsById = (request, response, next) => {
+exports.getCardsById = async (request, response, next) => {
   const { cardId } = request.params;
-  selectCardById(cardId)
-  response.status(200).send({})
-
+  const card = await selectCardById(cardId);
+  response.status(200).send({ card });
 };

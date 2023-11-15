@@ -33,8 +33,8 @@ describe("/cards/:cardId", () => {
           title: "Medium",
         },
         {
-          id: "gt",
-          title: "Giant",
+          id: "lg",
+          title: "Large",
         },
       ]);
       expect(card.pages).toEqual([

@@ -1,5 +1,9 @@
 const fs = require("fs/promises");
-const { templateUrlCache, formatGeneralCards } = require("../utils");
+const {
+  templateUrlCache,
+  formatGeneralCards,
+  formatSingleCard,
+} = require("../utils");
 const { json } = require("express");
 
 exports.selectCards = async () => {
@@ -22,5 +26,9 @@ exports.selectCardById = async (cardId) => {
 
   const templateCache = templateUrlCache(JSON.parse(templates));
 
-  const matchedCard = JSON.parse(cards).filter((card) => card.id === cardId);
+  const matchedCard = JSON.parse(cards).filter((card) => card.id === cardId)[0];
+
+  const formattedCard = formatSingleCard(matchedCard, templateCache);
+
+  return formattedCard;
 };
