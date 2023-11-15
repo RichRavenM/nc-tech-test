@@ -1,4 +1,4 @@
-const { getCards, getCardsById } = require("./controllers/CardControllers");
+const { getCards, getCardsById, deleteCardsById } = require("./controllers/CardControllers");
 
 const { errors } = require("./controllers/ErrorsController");
 
@@ -11,6 +11,8 @@ app.set("json spaces", 2);
 app.get("/cards", getCards);
 
 app.get("/cards/:cardId", getCardsById);
+
+app.delete("/cards/:cardId", deleteCardsById);
 
 app.use(errors);
 

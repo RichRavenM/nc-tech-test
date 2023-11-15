@@ -1,4 +1,8 @@
-const { selectCards, selectCardById } = require("../models/CardModels");
+const {
+  selectCards,
+  selectCardById,
+  removeCardsById,
+} = require("../models/CardModels");
 
 exports.getCards = async (request, response, next) => {
   const cards = await selectCards();
@@ -11,8 +15,12 @@ exports.getCardsById = async (request, response, next) => {
     const card = await selectCardById(cardId);
     response.status(200).send({ card });
   } catch (error) {
-    console.log(error)
-
     next(error);
   }
+};
+
+exports.deleteCardsById = async (request, response, next) => {
+  const { cardId } = request.params;
+  await removeCardsById(cardId);
+  response.status(204).send()
 };

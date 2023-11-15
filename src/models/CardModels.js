@@ -4,8 +4,7 @@ const {
   formatGeneralCards,
   formatSingleCard,
 } = require("../utils");
-const { json } = require("express");
-
+const { GeneralCard } = require("../classes/GeneralCard");
 exports.selectCards = async () => {
   const cardRead = fs.readFile("src/data/cards.json", "utf-8");
   const templateRead = fs.readFile("src/data/templates.json", "utf-8");
@@ -38,4 +37,12 @@ exports.selectCardById = async (cardId) => {
   const formattedCard = formatSingleCard(matchedCard, templateCache);
 
   return formattedCard;
+};
+
+exports.removeCardsById = async (cardId) => {
+  const cards = await fs.readFile("src/data/cards.json", "utf-8");
+  const filteredCards = JSON.parse(cards).filter((card) => card.id !== cardId);
+  const newData = JSON.stringify(filteredCards, null, 2);
+  await fs.writeFile("src/data/cards.json", newData);
+  return;
 };
