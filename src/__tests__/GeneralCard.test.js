@@ -25,4 +25,8 @@ describe("GeneralCard", () => {
     expect(GeneralCard.totalCards).toBe(3);
     expect(GeneralCard.totalCards - startVal).toBe(0);
   });
+  it("generateID generates id based on current databse length", () => {
+    const output = GeneralCard.generateId();
+    expect(output).toBe("card004");
+  });
 });
