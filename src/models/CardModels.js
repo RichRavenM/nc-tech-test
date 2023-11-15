@@ -40,9 +40,20 @@ exports.selectCardById = async (cardId) => {
 };
 
 exports.removeCardsById = async (cardId) => {
+  const pattern = /card\d{3}/;
+  if (!pattern.test(cardId)) {
+    throw new Error(400);
+  }
+
   const cards = await fs.readFile("src/data/cards.json", "utf-8");
-  const filteredCards = JSON.parse(cards).filter((card) => card.id !== cardId);
+
+  const parsedCards = JSON.parse(cards);
+  const filteredCards = parsedCards.filter((card) => card.id !== cardId);
+  if (filteredCards.length === parsedCards.length) {
+    throw new Error(404);
+  }
   const newData = JSON.stringify(filteredCards, null, 2);
   await fs.writeFile("src/data/cards.json", newData);
+  GeneralCard.decreaseTotalCards();
   return;
 };

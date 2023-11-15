@@ -21,6 +21,10 @@ exports.getCardsById = async (request, response, next) => {
 
 exports.deleteCardsById = async (request, response, next) => {
   const { cardId } = request.params;
-  await removeCardsById(cardId);
-  response.status(204).send()
+  try {
+    await removeCardsById(cardId);
+    response.status(204).send();
+  } catch (error) {
+    next(error);
+  }
 };

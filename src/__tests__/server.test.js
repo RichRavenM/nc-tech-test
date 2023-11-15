@@ -1,5 +1,6 @@
 const request = require("supertest");
 const { app } = require("../server");
+const { GeneralCard } = require("../classes/GeneralCard");
 
 describe("/cards", () => {
   describe("GET", () => {
@@ -74,6 +75,17 @@ describe("/cards/:cardId", () => {
       const getResponse = await request(app).get("/cards");
       const { cards } = getResponse.body;
       expect(cards).toHaveLength(2);
+      expect(GeneralCard.totalCards).toBe(2);
+    });
+    it("GET 400: Responds with 400 if id is invalid", async () => {
+      const response = await request(app).delete("/cards/3");
+      expect(response.status).toBe(400);
+      expect(response.body.msg).toBe("Invalid ID");
+    });
+    it("GET 404: Responds with 400 if card does not exist", async () => {
+      const response = await request(app).delete("/cards/card013");
+      expect(response.status).toBe(404);
+      expect(response.body.msg).toBe("Card does not exist");
     });
   });
 });
