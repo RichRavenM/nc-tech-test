@@ -19,7 +19,7 @@ describe("/cards", () => {
 
 describe("/cards/:cardId", () => {
   describe("GET", () => {
-    test("returns matching card title", async () => {
+    test("GET 200: returns matching card title", async () => {
       const response = await request(app).get("/cards/card003");
       expect(response.status).toBe(200);
       const { card } = response.body;
@@ -56,5 +56,16 @@ describe("/cards/:cardId", () => {
         },
       ]);
     });
+    it("GET 400: Responds with 400 if id is invalid", async ()=> {
+      const response = await request(app).get("/cards/3");
+      expect(response.status).toBe(400)
+      expect(response.body.msg).toBe("Invalid ID");
+      
+    })
+    it("GET 404: Responds with 400 if card does not exist", async ()=> {
+      const response = await request(app).get("/cards/card013");
+      expect(response.status).toBe(404);
+      expect(response.body.msg).toBe("Card does not exist");
+    })
   });
 });
